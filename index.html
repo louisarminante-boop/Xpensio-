@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Xpansio — Analyse de marchés export pour PME</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0f1c2e;--navy2:#1a2d45;--gold:#c9a84c;--gold2:#e8c97a;--cream:#f7f4ef;--cream2:#ede9e1;--white:#fff;--tm:#4a5568;--tl:#8899aa;--green:#2d7a5e;--greenl:#e6f4ee;--amber:#b45309;--amberl:#fef3c7;--red:#9b2c2c;--redl:#fff5f5}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(15,28,46,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,168,76,0.2);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);letter-spacing:.02em;cursor:pointer}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;cursor:pointer}
+.nav-links a:hover{color:var(--gold2)}
+.nav-cta{background:var(--gold);color:var(--navy);padding:8px 22px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:background .2s}
+.nav-cta:hover{background:var(--gold2)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;justify-content:center;padding:100px 8% 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);color:var(--gold2);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:6px 16px;margin-bottom:2rem;width:fit-content;animation:fadeUp .6s ease both}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5.5vw,76px);font-weight:500;color:#fff;line-height:1.1;letter-spacing:-.01em;max-width:820px;animation:fadeUp .6s .1s ease both}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{margin-top:1.5rem;max-width:520px;font-size:17px;color:rgba(255,255,255,0.56);line-height:1.7;font-weight:300;animation:fadeUp .6s .2s ease both}
+.hero-actions{margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .6s .3s ease both}
+.btn-p{background:var(--gold);color:var(--navy);padding:14px 32px;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;letter-spacing:.03em;transition:background .2s,transform .15s}
+.btn-p:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-o{background:transparent;color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.25);padding:14px 32px;font-size:14px;cursor:pointer;letter-spacing:.03em;text-decoration:none;display:inline-block;transition:border-color .2s,color .2s}
+.btn-o:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{margin-top:5rem;display:flex;gap:3rem;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,0.08);padding-top:2.5rem;animation:fadeUp .6s .4s ease both}
+.stat-n{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);font-weight:400}
+.stat-l{font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.07em;margin-top:4px}
+.trust-bar{background:var(--navy2);border-top:1px solid rgba(201,168,76,0.12);border-bottom:1px solid rgba(201,168,76,0.12);padding:1.25rem 8%;display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;justify-content:center}
+.trust-item{color:rgba(255,255,255,0.45);font-size:13px;font-weight:300}
+
+/* ── SECTIONS ── */
+.sc{padding:100px 8%}
+.sc-cream{background:var(--cream)}
+.sc-white{background:var(--white)}
+.sc-navy{background:var(--navy)}
+.sc-navy .stitle{color:#fff}
+.slabel{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:1rem}
+.stitle{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,48px);font-weight:500;line-height:1.15;color:var(--navy);max-width:620px;margin-bottom:3rem}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5px;background:var(--cream2);border:1.5px solid var(--cream2)}
+.fi{background:var(--cream);padding:2.5rem;transition:background .2s}
+.fi:hover{background:var(--white)}
+.fn{font-family:'Playfair Display',serif;font-size:44px;color:var(--cream2);font-weight:400;line-height:1;margin-bottom:1.5rem}
+.ft{font-size:15px;font-weight:500;color:var(--navy);margin-bottom:.75rem}
+.fd{font-size:14px;color:var(--tm);line-height:1.7;font-weight:300}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.step{padding:2rem 2rem 2rem 0;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;top:2.6rem;right:0;width:1px;height:40px;background:rgba(201,168,76,0.25)}
+.sn{font-family:'Playfair Display',serif;font-size:48px;color:rgba(201,168,76,0.18);font-weight:400;line-height:1;margin-bottom:1rem}
+.st{font-size:14px;font-weight:500;color:#fff;margin-bottom:.5rem}
+.sd{font-size:13px;color:rgba(255,255,255,0.43);line-height:1.65;font-weight:300}
+
+/* ── NEWS ── */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1px;background:var(--cream2)}
+.news-card{background:var(--white);padding:1.75rem;transition:background .2s;cursor:pointer}
+.news-card:hover{background:var(--cream)}
+.news-src{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-bottom:.75rem}
+.news-title{font-size:15px;font-weight:500;color:var(--navy);line-height:1.4;margin-bottom:.75rem}
+.news-excerpt{font-size:13px;color:var(--tm);line-height:1.65;font-weight:300}
+.news-date{font-size:11px;color:var(--tl);margin-top:.75rem}
+.news-state{text-align:center;padding:3rem;color:var(--tl);font-size:14px}
+
+/* ── TOOL SECTION ── */
+#outil{padding:100px 5%;background:var(--white);scroll-margin-top:64px}
+.tool-hdr{text-align:center;margin-bottom:3rem}
+.tool-hdr .stitle{margin:0 auto 1rem;text-align:center;max-width:none}
+.tool-hdr p{font-size:15px;color:var(--tm);max-width:500px;margin:0 auto;line-height:1.65}
+.tw{max-width:920px;margin:0 auto}
+.fc{background:var(--cream);border:1px solid var(--cream2);padding:2rem 2.5rem;margin-bottom:1rem}
+.fct{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--tl);border-bottom:1px solid var(--cream2);padding-bottom:.75rem;margin-bottom:1.5rem}
+.field{margin-bottom:1.25rem}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--tm);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.fi2{width:100%;padding:10px 14px;background:var(--white);border:1px solid var(--cream2);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s}
+.fi2:focus{border-color:var(--gold)}
+.fta{width:100%;padding:10px 14px;background:var(--white);border:1px solid var(--cream2);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s;height:80px;resize:vertical}
+.fta:focus{border-color:var(--gold)}
+.opt{font-size:9px;background:var(--cream2);color:var(--tl);padding:1px 6px;margin-left:6px;letter-spacing:.05em;text-transform:uppercase}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* ── COMPANY LOOKUP ── */
+.lw{position:relative}
+.lsp{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;border:2px solid var(--cream2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;display:none}
+.oc-results{border:1px solid var(--cream2);background:var(--white);margin-top:4px;display:none}
+.oc-item{padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--cream2);transition:background .15s}
+.oc-item:last-child{border-bottom:none}
+.oc-item:hover{background:var(--cream)}
+.oc-name{font-size:14px;font-weight:500;color:var(--navy)}
+.oc-meta{font-size:12px;color:var(--tl);margin-top:2px}
+.oc-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:2px;margin-left:6px}
+.oc-active{background:var(--greenl);color:var(--green)}
+.oc-inactive{background:var(--redl);color:var(--red)}
+.oc-unknown{background:var(--cream2);color:var(--tl)}
+.afb{background:var(--greenl);border:1px solid #7bc5a2;padding:12px 16px;margin-top:8px;display:none;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.afm{font-size:13px;color:var(--green)}
+.afn{font-size:11px;color:#5a9e84;margin-top:2px}
+.afa{display:flex;gap:8px;flex-shrink:0}
+.bsm{padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid;letter-spacing:.03em;transition:all .2s;font-family:'DM Sans',sans-serif}
+.bsm-y{background:var(--green);border-color:var(--green);color:#fff}
+.bsm-y:hover{background:#1e5940}
+.bsm-n{background:transparent;border-color:var(--green);color:var(--green)}
+.bsm-n:hover{background:var(--greenl)}
+
+/* ── COUNTRY PICKERS ── */
+.zw{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.ztag{padding:5px 14px;font-size:12px;border:1px solid var(--cream2);background:var(--white);color:var(--tm);cursor:pointer;user-select:none;transition:all .15s}
+.ztag:hover{border-color:var(--gold);color:var(--navy)}
+.ztag.on{background:var(--navy2);border-color:var(--navy2);color:var(--gold2)}
+.cs{width:100%;padding:9px 14px;background:var(--white);border:1px solid var(--cream2);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s;margin-bottom:8px}
+.cs:focus{border-color:var(--gold)}
+.cgr{display:flex;flex-wrap:wrap;gap:5px;max-height:210px;overflow-y:auto;padding:2px 0}
+.ctag{padding:5px 12px;font-size:12px;border:1px solid var(--cream2);background:var(--white);color:var(--tm);cursor:pointer;user-select:none;transition:all .15s}
+.ctag:hover{border-color:var(--gold);color:var(--navy)}
+.ctag.on{background:var(--navy);border-color:var(--navy);color:var(--gold2)}
+.cc{font-size:12px;color:var(--tl);margin-top:6px}
+
+/* ── CHOICES ── */
+.ch{display:flex;flex-wrap:wrap;gap:6px}
+.choice{padding:6px 14px;font-size:13px;border:1px solid var(--cream2);background:var(--white);color:var(--tm);cursor:pointer;user-select:none;transition:all .15s}
+.choice:hover{border-color:var(--gold);color:var(--navy)}
+.choice.on{background:var(--navy);border-color:var(--navy);color:var(--gold2)}
+.oi{width:100%;padding:9px 14px;background:var(--white);border:1px solid var(--cream2);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;margin-top:8px;display:none}
+.oi:focus{border-color:var(--gold)}
+
+/* ── TARGET MODE ── */
+.tm-row{display:flex;margin-bottom:10px}
+.tmb{flex:1;padding:8px;font-size:12px;text-align:center;border:1px solid var(--cream2);background:var(--white);cursor:pointer;color:var(--tm);font-family:'DM Sans',sans-serif;transition:all .15s}
+.tmb.on{background:var(--navy);border-color:var(--navy);color:var(--gold2)}
+.thint{font-size:11px;color:var(--tl);margin-top:4px}
+
+/* ── KPI ── */
+.kg{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.ktag{padding:5px 14px;font-size:12px;border:1px solid var(--cream2);background:var(--white);color:var(--tm);cursor:pointer;user-select:none;transition:all .15s}
+.ktag:hover{border-color:var(--gold);color:var(--navy)}
+.ktag.on{background:var(--navy2);border-color:var(--navy2);color:var(--gold2)}
+.kcr{display:flex;gap:8px;margin-top:8px}
+.kci{flex:1;padding:8px 12px;background:var(--white);border:1px solid var(--cream2);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);outline:none;transition:border-color .2s}
+.kci:focus{border-color:var(--gold)}
+.kca{padding:8px 16px;background:var(--navy);color:var(--gold);border:none;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;white-space:nowrap}
+.kca:hover{background:var(--navy2)}
+.kchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kch{padding:4px 12px;font-size:12px;background:var(--navy2);color:var(--gold2);display:flex;align-items:center;gap:6px}
+.kch .rm{cursor:pointer;opacity:.6;font-size:10px}
+.kch .rm:hover{opacity:1}
+
+/* ── ANALYZE BUTTON ── */
+.abtn{width:100%;padding:16px;background:var(--navy);color:var(--gold);border:2px solid var(--navy);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:.5rem}
+.abtn:hover:not(:disabled){background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.abtn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── RESULTS ── */
+.res-wrap{margin-top:2.5rem}
+.res-sum{background:var(--navy);color:rgba(255,255,255,0.8);padding:1.5rem 2rem;margin-bottom:1.5rem;font-size:14px;line-height:1.7;border-left:3px solid var(--gold)}
+.res-warn{background:var(--amberl);border:1px solid var(--amber);padding:10px 16px;margin-bottom:1rem;font-size:13px;color:var(--amber)}
+.rc{background:var(--cream);border:1px solid var(--cream2);padding:1.75rem 2rem;margin-bottom:1px;transition:background .2s}
+.rc:hover{background:var(--white)}
+.rch{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.75rem;flex-wrap:wrap}
+.rcl{display:flex;align-items:center;gap:12px}
+.rcrk{font-family:'Playfair Display',serif;font-size:30px;color:var(--cream2);font-weight:400;line-height:1;min-width:34px}
+.rcc{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--navy)}
+.rcb{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.vp{padding:4px 14px;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.vpg{background:var(--greenl);color:var(--green)}
+.vpa{background:var(--amberl);color:var(--amber)}
+.vpr{background:var(--redl);color:var(--red)}
+.scd{font-family:'Playfair Display',serif;font-size:26px;color:var(--navy);font-weight:400}
+.sbw{background:var(--cream2);height:3px;margin-bottom:1rem}
+.sb{height:3px;transition:width .8s ease}
+.cr{display:flex;gap:1.25rem;flex-wrap:wrap;margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid var(--cream2)}
+.cri{font-size:12px;color:var(--tl);display:flex;gap:5px;align-items:center}
+.cri strong{color:var(--navy);font-weight:500}
+.ins{display:grid;gap:5px;margin-bottom:.75rem}
+.inl{font-size:13px;color:var(--tm);line-height:1.6}
+.inl b{color:var(--navy);font-weight:500}
+.fp{background:var(--navy2);padding:1rem 1.25rem;margin-top:.75rem;border-left:3px solid rgba(201,168,76,0.35)}
+.fpl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:500;margin-bottom:.75rem}
+.fpg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.fpv{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold2);font-weight:400}
+.fpk{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px}
+.fpn{font-size:11px;color:rgba(255,255,255,0.3);margin-top:.75rem;font-style:italic}
+.stb{background:var(--navy);padding:1.25rem 1.5rem;margin-top:.75rem;border-left:3px solid var(--gold)}
+.stbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.stbt{font-family:'Playfair Display',serif;font-size:16px;color:#fff;margin-bottom:6px}
+.stbd{font-size:13px;color:rgba(255,255,255,0.58);line-height:1.65;font-weight:300}
+
+/* ── LOADING / ERROR ── */
+.lstate{text-align:center;padding:3rem;color:var(--tm)}
+.spin{width:32px;height:32px;border:2px solid var(--cream2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
+.lsub{font-size:12px;color:var(--tl);margin-top:6px}
+.lpbar-w{height:4px;background:var(--cream2);max-width:280px;margin:1rem auto 0}
+.lpbar{height:4px;background:var(--gold);transition:width .4s ease}
+.err{color:var(--red);background:var(--redl);border:1px solid #f5c6c6;padding:14px 18px;font-size:13px;margin-top:1rem;line-height:1.6}
+
+/* ── FAQ ── */
+.faq-list{max-width:740px}
+.faq-item{border-bottom:1px solid var(--cream2)}
+.faq-q{width:100%;text-align:left;padding:1.25rem 0;background:transparent;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq-q:hover{color:var(--gold)}
+.faq-arrow{font-size:20px;transition:transform .25s;color:var(--gold);flex-shrink:0}
+.faq-a{font-size:14px;color:var(--tm);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease;font-weight:300}
+.faq-item.open .faq-arrow{transform:rotate(45deg)}
+.faq-item.open .faq-a{max-height:320px;padding-bottom:1.25rem}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);padding:60px 8% 40px;border-top:1px solid rgba(201,168,76,0.12)}
+.ftop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3rem;flex-wrap:wrap;gap:2rem}
+.flog{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);margin-bottom:.5rem}
+.ftag{font-size:13px;color:rgba(255,255,255,0.32);font-weight:300}
+.fls{display:flex;gap:2rem;flex-wrap:wrap}
+.fls a{color:rgba(255,255,255,0.42);font-size:13px;text-decoration:none;transition:color .2s;cursor:pointer}
+.fls a:hover{color:var(--gold)}
+.fbot{border-top:1px solid rgba(255,255,255,0.05);padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fcp{font-size:12px;color:rgba(255,255,255,0.18)}
+.fmd{font-size:12px;color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:680px){.r2,.r3{grid-template-columns:1fr}.hero-stats{gap:1.5rem}.nav-links{display:none}.step:not(:last-child)::after{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ── BACKEND URL — modifier si backend sur un autre domaine ── -->
+<script>
+  // En développement : http://localhost:3001
+  // En production : https://votre-api.com
+  window.API_BASE = window.location.hostname === 'localhost'
+    ? 'http://localhost:3001/api'
+    : '/api';  // même domaine en production (backend sert le frontend)
+</script>
+
+<nav>
+  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Xpansio</div>
+  <div class="nav-links">
+    <a onclick="s2('fonctionnalites')">Fonctionnalités</a>
+    <a onclick="s2('actualites')">Actualités</a>
+    <a onclick="s2('outil')">Analyser</a>
+    <a onclick="s2('faq')">FAQ</a>
+  </div>
+  <button class="nav-cta" onclick="s2('outil')">Lancer l'analyse</button>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div style="position:relative">
+    <div class="hero-badge"><span class="hero-dot"></span>Outil gratuit · Données réelles · 200+ pays</div>
+    <h1>Identifiez vos <em>marchés cibles</em> à l'export en quelques minutes</h1>
+    <p class="hero-sub">Xpansio combine des données réelles d'entreprise (OpenCorporates), des actualités économiques du jour et l'intelligence de Claude pour scorer chaque pays cible avec précision.</p>
+    <div class="hero-actions">
+      <button class="btn-p" onclick="s2('outil')">Lancer mon analyse gratuite</button>
+      <button class="btn-o" onclick="s2('fonctionnalites')">Voir comment ça marche</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-n">200+</div><div class="stat-l">Pays analysables</div></div>
+      <div><div class="stat-n">Réel</div><div class="stat-l">Données OpenCorporates</div></div>
+      <div><div class="stat-n">Live</div><div class="stat-l">Actualités du jour</div></div>
+      <div><div class="stat-n">100%</div><div class="stat-l">Gratuit & instantané</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item">✓ OpenCorporates API — données légales réelles</div>
+  <div class="trust-item">✓ NewsAPI + flux RSS — actualités du jour</div>
+  <div class="trust-item">✓ Claude Sonnet — analyse IA experte</div>
+  <div class="trust-item">✓ Aucune clé API exposée côté navigateur</div>
+  <div class="trust-item">✓ Projections financières par pays</div>
+</div>
+
+<!-- ── FEATURES ── -->
+<section class="sc sc-cream" id="fonctionnalites">
+  <div class="slabel">Pourquoi Xpansio</div>
+  <h2 class="stitle">Données réelles. Analyse experte. Résultat actionnable.</h2>
+  <div class="fg">
+    <div class="fi"><div class="fn">01</div><div class="ft">Données entreprise réelles</div><div class="fd">OpenCorporates centralise les registres de commerces de 150+ pays. Xpansio interroge cette base pour récupérer les données légales réelles de votre entreprise en quelques secondes.</div></div>
+    <div class="fi"><div class="fn">02</div><div class="ft">Actualités économiques du jour</div><div class="fd">NewsAPI + Reuters, BBC, Les Echos, Euronews — les dernières nouvelles du commerce international filtrées et injectées dans chaque analyse pour contextualiser chaque marché.</div></div>
+    <div class="fi"><div class="fn">03</div><div class="ft">Analyse IA calibrée sur vos ressources</div><div class="fd">Claude interprète toutes ces données en tenant compte de votre taille, budget et équipe réels. Le score reflète ce qui est faisable pour vous — pas le potentiel théorique du marché.</div></div>
+    <div class="fi"><div class="fn">04</div><div class="ft">Projections financières par pays</div><div class="fd">Investissement d'entrée estimé, CA potentiel an 1 et an 3, délai de rentabilité — pour comparer les opportunités et arbitrer entre marchés avec des chiffres concrets.</div></div>
+    <div class="fi"><div class="fn">05</div><div class="ft">Aucune clé API exposée</div><div class="fd">Toutes les clés Anthropic, NewsAPI et OpenCorporates restent côté serveur. Votre navigateur ne communique qu'avec le backend Xpansio — jamais directement avec des APIs tierces.</div></div>
+    <div class="fi"><div class="fn">06</div><div class="ft">Stratégie d'entrée sur mesure</div><div class="fd">Pour chaque marché positif : canal recommandé, type de partenariat, et une première action concrète à mener dès le premier mois.</div></div>
+  </div>
+</section>
+
+<!-- ── HOW ── -->
+<section class="sc sc-navy" id="comment">
+  <div class="slabel" style="color:var(--gold)">Architecture</div>
+  <h2 class="stitle">Comment Xpansio fonctionne</h2>
+  <div class="steps">
+    <div class="step"><div class="sn">01</div><div class="st">Recherche d'entreprise</div><div class="sd">Le frontend envoie le nom au backend → /api/company interroge OpenCorporates et retourne les données légales réelles.</div></div>
+    <div class="step"><div class="sn">02</div><div class="st">Actualités en temps réel</div><div class="sd">→ /api/news interroge NewsAPI (ou RSS en fallback) et retourne les articles filtrés du commerce international.</div></div>
+    <div class="step"><div class="sn">03</div><div class="st">Analyse par Claude</div><div class="sd">→ /api/analyze reçoit toutes les données, construit un prompt expert et appelle Claude — jamais depuis le navigateur.</div></div>
+    <div class="step"><div class="sn">04</div><div class="st">Résultats classés</div><div class="sd">Score, verdict, projections financières et stratégie d'entrée — triés du plus au moins prioritaire.</div></div>
+  </div>
+</section>
+
+<!-- ── NEWS ── -->
+<section class="sc sc-white" id="actualites">
+  <div class="slabel">Actualités commerce international</div>
+  <h2 class="stitle">Les nouvelles du commerce mondial — aujourd'hui</h2>
+  <div id="news-box"><div class="news-state"><div class="spin" style="width:24px;height:24px;border-width:2px;margin:0 auto 1rem"></div>Chargement des actualités...</div></div>
+  <div style="text-align:center;margin-top:2rem">
+    <button class="btn-o" style="color:var(--navy);border-color:var(--cream2)" onclick="loadNews()">Actualiser</button>
+  </div>
+</section>
+
+<!-- ── TOOL ── -->
+<section id="outil">
+  <div class="tool-hdr">
+    <div class="slabel" style="text-align:center">Analyse gratuite</div>
+    <h2 class="stitle">Lancez votre analyse de marchés export</h2>
+    <p>Remplissez les informations ci-dessous. L'IA analyse chaque pays avec les données réelles du jour.</p>
+  </div>
+  <div class="tw">
+
+    <!-- COMPANY -->
+    <div class="fc">
+      <div class="fct">Identité de l'entreprise <span class="opt">recherche automatique via OpenCorporates</span></div>
+      <div class="field">
+        <label>Nom de l'entreprise</label>
+        <div class="lw">
+          <input type="text" class="fi2" id="company" placeholder="ex. Michelin, Yoplait, votre PME..." autocomplete="off" oninput="onCoInput(this.value)"/>
+          <div class="lsp" id="lsp"></div>
+        </div>
+        <!-- Résultats OpenCorporates -->
+        <div class="oc-results" id="oc-results"></div>
+        <!-- Banner autofill appliqué -->
+        <div class="afb" id="afb">
+          <div><div class="afm" id="afm">Entreprise sélectionnée</div><div class="afn" id="afn"></div></div>
+          <div class="afa">
+            <button class="bsm bsm-n" onclick="clearAF()">Modifier</button>
+          </div>
+        </div>
+      </div>
+      <div class="r2">
+        <div class="field">
+          <label>Secteur d'activité</label>
+          <select class="fi2" id="sector" style="appearance:none;cursor:pointer">
+            <option value="">Sélectionner...</option>
+            <option>Agroalimentaire</option><option>Industrie / Manufacturing</option>
+            <option>Tech / SaaS</option><option>Services B2B</option>
+            <option>Cosmétique / Bien-être</option><option>Mode / Textile</option>
+            <option>Construction / BTP</option><option>Santé / Medtech</option>
+            <option>Logistique / Transport</option><option>Energie / Cleantech</option>
+            <option>Automobile</option><option>Aéronautique / Défense</option>
+            <option>Chimie / Matériaux</option><option>Agriculture / Agritech</option><option>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label>Produit / service principal</label><input type="text" class="fi2" id="product" placeholder="ex. Machines de découpe laser"/></div>
+      </div>
+      <div class="r3">
+        <div class="field"><label>CA annuel (€)</label><input type="number" class="fi2" id="revenue" placeholder="ex. 2500000"/></div>
+        <div class="field"><label>Nb. d'employés</label><input type="number" class="fi2" id="employees" placeholder="ex. 45"/></div>
+        <div class="field"><label>Part export actuelle (%)</label><input type="number" class="fi2" id="export_pct" placeholder="ex. 15" min="0" max="100"/></div>
+      </div>
+      <div class="r2">
+        <div class="field"><label>Personnes allouées au projet</label><input type="number" class="fi2" id="team_size" placeholder="ex. 3"/></div>
+        <div class="field"><label>Budget export estimé (€) <span class="opt">optionnel</span></label><input type="number" class="fi2" id="budget" placeholder="ex. 80000"/></div>
+      </div>
+    </div>
+
+    <!-- ACTIVE COUNTRIES -->
+    <div class="fc">
+      <div class="fct">Pays déjà actifs <span class="opt">zones ou recherche</span></div>
+      <div class="field" style="margin:0">
+        <div class="zw" id="az">
+          <div class="ztag" onclick="selZone(this,'europe','a')">Europe</div>
+          <div class="ztag" onclick="selZone(this,'mena','a')">Moyen-Orient & Maghreb</div>
+          <div class="ztag" onclick="selZone(this,'asie','a')">Asie-Pacifique</div>
+          <div class="ztag" onclick="selZone(this,'ameriques','a')">Amériques</div>
+          <div class="ztag" onclick="selZone(this,'afrique','a')">Afrique subsaharienne</div>
+        </div>
+        <input type="text" class="cs" id="as" placeholder="Rechercher un pays actif..." oninput="fg('ag','a',this.value)"/>
+        <div class="cgr" id="ag"></div>
+        <div class="cc" id="ac"></div>
+      </div>
+    </div>
+
+    <!-- OBJECTIVES -->
+    <div class="fc">
+      <div class="fct">Objectifs de pénétration</div>
+      <div class="field">
+        <label>Objectif principal</label>
+        <div class="ch" id="oc2">
+          <div class="choice" onclick="pC('o',this)">Trouver des distributeurs locaux</div>
+          <div class="choice" onclick="pC('o',this)">Vente directe B2B</div>
+          <div class="choice" onclick="pC('o',this)">Ouvrir un bureau / filiale</div>
+          <div class="choice" onclick="pC('o',this)">Partenariat stratégique</div>
+          <div class="choice" onclick="pC('o',this)">E-commerce / vente en ligne</div>
+          <div class="choice" onclick="pC('o',this)">Appels d'offres publics</div>
+          <div class="choice" onclick="pC('o',this)">Tester le marché (pilote)</div>
+          <div class="choice" onclick="pC('o',this,'y')">Autre...</div>
+        </div>
+        <input type="text" class="oi" id="o-other" placeholder="Décrivez votre objectif..."/>
+      </div>
+      <div class="field">
+        <label>Horizon temporel</label>
+        <div class="ch" id="hc">
+          <div class="choice" onclick="pC('h',this)">Court terme (0–6 mois)</div>
+          <div class="choice" onclick="pC('h',this)">Moyen terme (6–18 mois)</div>
+          <div class="choice" onclick="pC('h',this)">Long terme (18 mois+)</div>
+          <div class="choice" onclick="pC('h',this,'y')">Autre...</div>
+        </div>
+        <input type="text" class="oi" id="h-other" placeholder="Précisez votre horizon..."/>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Objectif CA export <span class="opt">optionnel</span></label>
+        <div class="tm-row">
+          <button class="tmb on" onclick="setTM('v',this)">Montant (€)</button>
+          <button class="tmb" onclick="setTM('p',this)">Augmentation (%)</button>
+          <button class="tmb" onclick="setTM('s',this)">Part de marché (%)</button>
+        </div>
+        <input type="number" class="fi2" id="tv" placeholder="ex. 500000"/>
+        <div class="thint" id="th">Montant absolu en euros visé sur l'horizon défini</div>
+      </div>
+    </div>
+
+    <!-- KPI -->
+    <div class="fc">
+      <div class="fct">KPI prioritaires <span class="opt">optionnel</span></div>
+      <div class="field" style="margin-bottom:.75rem">
+        <label>Suggestions — cliquez pour sélectionner</label>
+        <div class="kg">
+          <div class="ktag" onclick="togK(this)">Taux de conversion leads</div>
+          <div class="ktag" onclick="togK(this)">Délai du 1er contrat signé</div>
+          <div class="ktag" onclick="togK(this)">Nb de partenaires signés</div>
+          <div class="ktag" onclick="togK(this)">Part de marché cible</div>
+          <div class="ktag" onclick="togK(this)">Coût d'acquisition client</div>
+          <div class="ktag" onclick="togK(this)">CA export total</div>
+          <div class="ktag" onclick="togK(this)">Nb de leads qualifiés / mois</div>
+          <div class="ktag" onclick="togK(this)">Taux de rétention clients</div>
+          <div class="ktag" onclick="togK(this)">Marge brute export</div>
+          <div class="ktag" onclick="togK(this)">ROI campagne export</div>
+        </div>
+      </div>
+      <div class="field" style="margin:0">
+        <label>KPI personnalisé</label>
+        <div class="kcr">
+          <input type="text" class="kci" id="ki" placeholder="ex. Nb de salons professionnels visités" onkeydown="if(event.key==='Enter')addK()"/>
+          <button class="kca" onclick="addK()">+ Ajouter</button>
+        </div>
+        <div class="kchips" id="kchips"></div>
+      </div>
+    </div>
+
+    <!-- TARGET COUNTRIES -->
+    <div class="fc">
+      <div class="fct">Pays cibles à analyser <span class="opt">zones ou recherche parmi 200+ pays</span></div>
+      <div class="field" style="margin-bottom:.75rem">
+        <label>Sélection rapide par zone</label>
+        <div class="zw" id="tz">
+          <div class="ztag" onclick="selZone(this,'europe','t')">Europe</div>
+          <div class="ztag" onclick="selZone(this,'mena','t')">Moyen-Orient & Maghreb</div>
+          <div class="ztag" onclick="selZone(this,'asie','t')">Asie-Pacifique</div>
+          <div class="ztag" onclick="selZone(this,'ameriques','t')">Amériques</div>
+          <div class="ztag" onclick="selZone(this,'afrique','t')">Afrique subsaharienne</div>
+        </div>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Rechercher un pays</label>
+        <input type="text" class="cs" id="ts" placeholder="Tapez un nom de pays..." oninput="fg('tg','t',this.value)"/>
+        <div class="cgr" id="tg"></div>
+        <div class="cc" id="tc"></div>
+      </div>
+    </div>
+
+    <!-- CONTEXT -->
+    <div class="fc">
+      <div class="fct">Contexte & atouts <span class="opt">optionnel</span></div>
+      <div class="field" style="margin:0">
+        <label>Certifications, contraintes, forces spécifiques</label>
+        <textarea class="fta" id="context" placeholder="ex. Certifié ISO 9001, prix premium, réseau de distribution en Europe..."></textarea>
+      </div>
+    </div>
+
+    <button class="abtn" id="abtn" onclick="runA()">Lancer l'analyse de marché</button>
+    <div id="results"></div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="sc sc-cream" id="faq">
+  <div class="slabel">Questions fréquentes</div>
+  <h2 class="stitle">Tout ce que vous devez savoir</h2>
+  <div class="faq-list">
+    <div class="faq-item"><button class="faq-q" onclick="togFAQ(this)">Comment Xpansio récupère-t-il les données d'entreprise ?<span class="faq-arrow">+</span></button><div class="faq-a">Xpansio interroge l'API publique OpenCorporates qui centralise les registres de commerces de 150+ pays. Vous obtenez le nom légal, le pays d'enregistrement, le statut, le type de société et la date de création. Cette requête se fait depuis le serveur backend, jamais depuis votre navigateur.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="togFAQ(this)">Les clés API sont-elles sécurisées ?<span class="faq-arrow">+</span></button><div class="faq-a">Oui. Les clés Anthropic, NewsAPI et OpenCorporates ne sont stockées que dans le fichier .env du serveur backend. Le frontend ne connaît que l'URL de votre propre backend — jamais les clés directement.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="togFAQ(this)">Les données sont-elles vraiment à jour ?<span class="faq-arrow">+</span></button><div class="faq-a">Les actualités sont récupérées depuis NewsAPI (ou les flux RSS Reuters, BBC, Les Echos, Euronews en fallback) à chaque chargement de la page. Les données d'entreprise d'OpenCorporates reflètent l'état des registres publics mis à jour régulièrement. Les analyses Claude sont générées en temps réel à chaque appel.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="togFAQ(this)">Combien de pays puis-je analyser simultanément ?<span class="faq-arrow">+</span></button><div class="faq-a">Jusqu'à 50 pays. L'analyse est automatiquement découpée en lots de 4 pays par appel Claude, ce qui évite les timeouts et garantit une réponse pour chaque lot. Un lot qui échoue est signalé sans bloquer les autres.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="togFAQ(this)">Comment déployer ce site en production ?<span class="faq-arrow">+</span></button><div class="faq-a">Le backend Node.js peut être déployé sur Railway, Render, Fly.io ou un VPS. Créez un fichier .env avec vos clés (ANTHROPIC_API_KEY, NEWS_API_KEY, OPENCORPORATES_API_KEY), lancez "npm install" puis "npm start". Le backend sert aussi le frontend statique.</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="ftop">
+    <div><div class="flog">Xpansio</div><div class="ftag">Intelligence export pour PME ambitieuses</div></div>
+    <div class="fls">
+      <a onclick="s2('fonctionnalites')">Fonctionnalités</a>
+      <a onclick="s2('actualites')">Actualités</a>
+      <a onclick="s2('outil')">Analyser</a>
+      <a onclick="s2('faq')">FAQ</a>
+    </div>
+  </div>
+  <div class="fbot">
+    <div class="fcp">© 2025 Xpansio. Données réelles · OpenCorporates · NewsAPI · Claude Sonnet</div>
+    <div class="fmd">Backend sécurisé — clés API jamais exposées</div>
+  </div>
+</footer>
+
+<script>
+/* ================================================================
+   CONFIG
+================================================================ */
+const API = window.API_BASE || '/api';
+
+/* ================================================================
+   COUNTRIES DATA
+================================================================ */
+const ALL=['Afghanistan','Afrique du Sud','Albanie','Algérie','Allemagne','Angola','Arabie Saoudite','Argentine','Arménie','Australie','Autriche','Azerbaïdjan','Bahreïn','Bangladesh','Belgique','Bénin','Birmanie','Bolivie','Bosnie-Herzégovine','Brésil','Bulgarie','Burkina Faso','Cambodge','Cameroun','Canada','Chili','Chine','Colombie','Congo (RDC)','Corée du Sud','Costa Rica','Côte d\'Ivoire','Croatie','Cuba','Danemark','Égypte','Émirats Arabes Unis','Équateur','Espagne','Estonie','États-Unis','Éthiopie','Finlande','France','Géorgie','Ghana','Grèce','Guatemala','Hong Kong','Hongrie','Inde','Indonésie','Irak','Iran','Irlande','Islande','Israël','Italie','Jamaïque','Japon','Jordanie','Kazakhstan','Kenya','Koweït','Lettonie','Liban','Libye','Lituanie','Luxembourg','Macédoine du Nord','Madagascar','Malaisie','Mali','Maroc','Mexique','Moldova','Mongolie','Mozambique','Namibie','Népal','Nicaragua','Nigeria','Norvège','Nouvelle-Zélande','Oman','Ouganda','Ouzbékistan','Pakistan','Panama','Paraguay','Pays-Bas','Pérou','Philippines','Pologne','Portugal','Qatar','République Tchèque','Roumanie','Royaume-Uni','Russie','Rwanda','Sénégal','Serbie','Singapour','Slovaquie','Slovénie','Sri Lanka','Suède','Suisse','Taïwan','Tanzanie','Thaïlande','Tunisie','Turquie','Ukraine','Uruguay','Venezuela','Vietnam','Zimbabwe'];
+const ZONES={europe:['Allemagne','Autriche','Belgique','Bulgarie','Croatie','Danemark','Espagne','Estonie','Finlande','France','Grèce','Hongrie','Irlande','Islande','Italie','Lettonie','Lituanie','Luxembourg','Macédoine du Nord','Norvège','Pays-Bas','Pologne','Portugal','République Tchèque','Roumanie','Royaume-Uni','Serbie','Slovaquie','Slovénie','Suède','Suisse'],mena:['Algérie','Arabie Saoudite','Bahreïn','Égypte','Émirats Arabes Unis','Irak','Iran','Israël','Jordanie','Koweït','Liban','Libye','Maroc','Oman','Qatar','Tunisie'],asie:['Australie','Azerbaïdjan','Bangladesh','Birmanie','Cambodge','Chine','Corée du Sud','Hong Kong','Inde','Indonésie','Japon','Kazakhstan','Malaisie','Mongolie','Népal','Nouvelle-Zélande','Ouzbékistan','Pakistan','Philippines','Singapour','Sri Lanka','Taïwan','Thaïlande','Vietnam'],ameriques:['Argentine','Bolivie','Brésil','Canada','Chili','Colombie','Costa Rica','Cuba','Équateur','États-Unis','Guatemala','Jamaïque','Mexique','Nicaragua','Panama','Paraguay','Pérou','Uruguay','Venezuela'],afrique:['Afrique du Sud','Angola','Bénin','Burkina Faso','Cameroun','Congo (RDC)','Côte d\'Ivoire','Éthiopie','Ghana','Kenya','Madagascar','Mali','Mozambique','Namibie','Nigeria','Ouganda','Rwanda','Sénégal','Tanzanie','Zimbabwe']};
+
+/* ================================================================
+   STATE
+================================================================ */
+const S={a:new Set(),t:new Set()};
+const kpis=new Set();
+let tm='v', oc='',hc='', afData=null, ltimer=null, cachedNews=[];
+
+/* ================================================================
+   UTILS
+================================================================ */
+function s2(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+function gV(id){return document.getElementById(id).value.trim()}
+function setEl(id,val){document.getElementById(id).value=val}
+function showEl(id,d='block'){document.getElementById(id).style.display=d}
+function hideEl(id){document.getElementById(id).style.display='none'}
+
+/* ================================================================
+   API CALLS (all routes go through backend)
+================================================================ */
+async function apiGet(path, errorMsg='Erreur réseau') {
+  const res = await fetch(API + path, {
+    headers: { 'Accept': 'application/json' }
+  }).catch(e => { throw new Error('Impossible de joindre le serveur : ' + e.message); });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || errorMsg + ' (HTTP ' + res.status + ')');
+  return data;
+}
+
+async function apiPost(path, body, errorMsg='Erreur réseau') {
+  const res = await fetch(API + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(body)
+  }).catch(e => { throw new Error('Impossible de joindre le serveur : ' + e.message); });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || errorMsg + ' (HTTP ' + res.status + ')');
+  return data;
+}
+
+/* ================================================================
+   COMPANY LOOKUP — via /api/company
+================================================================ */
+function onCoInput(val) {
+  clearTimeout(ltimer);
+  document.getElementById('oc-results').style.display = 'none';
+  hideEl('afb');
+  if (val.trim().length < 2) return;
+  ltimer = setTimeout(() => searchCompany(val.trim()), 800);
+}
+
+async function searchCompany(name) {
+  showEl('lsp','block');
+  document.getElementById('oc-results').style.display = 'none';
+
+  try {
+    const data = await apiGet(`/company?name=${encodeURIComponent(name)}`, 'Recherche d\'entreprise échouée');
+    if (!data.results || data.results.length === 0) {
+      renderOCResults([], name);
+    } else {
+      renderOCResults(data.results, name);
+    }
+  } catch (err) {
+    // Show error inline, don't block user
+    const box = document.getElementById('oc-results');
+    box.innerHTML = `<div class="oc-item"><div class="oc-name" style="color:var(--red)">⚠ ${err.message}</div><div class="oc-meta">Vous pouvez remplir le formulaire manuellement.</div></div>`;
+    box.style.display = 'block';
+  } finally {
+    document.getElementById('lsp').style.display = 'none';
+  }
+}
+
+function renderOCResults(results, query) {
+  const box = document.getElementById('oc-results');
+  if (results.length === 0) {
+    box.innerHTML = `<div class="oc-item"><div class="oc-name" style="color:var(--tl)">Aucune entreprise trouvée pour "${query}"</div><div class="oc-meta">Remplissez le formulaire manuellement.</div></div>`;
+    box.style.display = 'block';
+    return;
+  }
+  box.innerHTML = results.slice(0, 6).map((c, i) => {
+    const statusClass = c.status === 'Active' ? 'oc-active' : c.status ? 'oc-inactive' : 'oc-unknown';
+    const statusLabel = c.status || 'Statut inconnu';
+    return `<div class="oc-item" onclick="selectCompany(${i})">
+      <div class="oc-name">${c.name}<span class="oc-badge ${statusClass}">${statusLabel}</span></div>
+      <div class="oc-meta">${c.jurisdiction.toUpperCase() || ''} · ${c.company_type || 'Type inconnu'} · Secteur estimé : ${c.sector_guess}</div>
+    </div>`;
+  }).join('');
+  box.style.display = 'block';
+  // Store results for selection
+  box._results = results;
+}
+
+function selectCompany(idx) {
+  const box = document.getElementById('oc-results');
+  const results = box._results || [];
+  const c = results[idx];
+  if (!c) return;
+
+  afData = c;
+  // Pre-fill form
+  if (c.sector_guess) setEl('sector', c.sector_guess);
+  // Don't overwrite product/revenue — OC doesn't have that
+  box.style.display = 'none';
+  document.getElementById('afm').textContent = `"${c.name}" sélectionnée`;
+  document.getElementById('afn').textContent = `${c.jurisdiction.toUpperCase() || ''} · ${c.company_type || ''} · ${c.status || ''} · Source : OpenCorporates`;
+  showEl('afb','flex');
+}
+
+function clearAF() {
+  afData = null;
+  hideEl('afb');
+  document.getElementById('company').value = '';
+  document.getElementById('oc-results').style.display = 'none';
+}
+
+/* ================================================================
+   COUNTRY GRIDS
+================================================================ */
+function buildG(gid,sk,flt=''){
+  const el=document.getElementById(gid);
+  const set=S[sk];
+  const list=ALL.filter(c=>c.toLowerCase().includes(flt.toLowerCase()));
+  el.innerHTML=list.map(c=>`<div class="ctag${set.has(c)?' on':''}" onclick="togC('${gid}','${sk}','${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
+  updCC(sk);
+}
+function togC(gid,sk,name){
+  S[sk].has(name)?S[sk].delete(name):S[sk].add(name);
+  buildG(gid,sk,document.getElementById(gid==='ag'?'as':'ts').value);
+}
+function fg(gid,sk,val){buildG(gid,sk,val)}
+function updCC(sk){
+  const el=document.getElementById(sk==='a'?'ac':'tc');
+  if(el)el.textContent=S[sk].size?`${S[sk].size} pays sélectionné(s)`:'';
+}
+function selZone(el,zone,sk){
+  el.classList.toggle('on');
+  const zc=ZONES[zone]||[];
+  if(el.classList.contains('on'))zc.forEach(c=>S[sk].add(c));
+  else zc.forEach(c=>S[sk].delete(c));
+  buildG(sk==='a'?'ag':'tg', sk, document.getElementById(sk==='a'?'as':'ts').value);
+}
+
+/* ================================================================
+   CHOICES
+================================================================ */
+function pC(t,el,other){
+  document.querySelectorAll(`#${t==='o'?'oc2':'hc'} .choice`).forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  const inp=document.getElementById(`${t}-other`);
+  if(other){inp.style.display='block';inp.focus();if(t==='o')oc='__x__';else hc='__x__';}
+  else{inp.style.display='none';if(t==='o')oc=el.textContent;else hc=el.textContent;}
+}
+function gObj(){return oc==='__x__'?(gV('o-other')||'Autre'):oc}
+function gHor(){return hc==='__x__'?(gV('h-other')||'Autre'):hc}
+function setTM(m,el){
+  tm=m;
+  document.querySelectorAll('.tmb').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  const h={v:'Montant absolu en euros visé',p:'Augmentation en % du CA export actuel',s:'Part de marché visée (%)'};
+  document.getElementById('th').textContent=h[m];
+  document.getElementById('tv').placeholder=m==='v'?'ex. 500000':'ex. 25';
+}
+function gTarget(){
+  const v=gV('tv');if(!v)return'Non précisé';
+  return tm==='v'?v+'€':tm==='p'?'+'+v+'% CA export':v+'% part de marché';
+}
+
+/* ================================================================
+   KPI
+================================================================ */
+function togK(el){const t=el.textContent;kpis.has(t)?(kpis.delete(t),el.classList.remove('on')):(kpis.add(t),el.classList.add('on'));rKC();}
+function addK(){const i=document.getElementById('ki');const v=i.value.trim();if(!v)return;kpis.add(v);i.value='';rKC();}
+function rmK(v){kpis.delete(v);document.querySelectorAll('.ktag').forEach(t=>{if(t.textContent===v)t.classList.remove('on');});rKC();}
+function rKC(){document.getElementById('kchips').innerHTML=[...kpis].map(k=>`<div class="kch">${k}<span class="rm" onclick="rmK(this.closest('.kch').firstChild.textContent)">✕</span></div>`).join('');}
+
+/* ================================================================
+   FAQ
+================================================================ */
+function togFAQ(btn){const item=btn.closest('.faq-item');const was=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!was)item.classList.add('open');}
+
+/* ================================================================
+   NEWS — via /api/news
+================================================================ */
+const TOPIC_CLR={'Tensions douanières':'#7c3aed','Accord commercial':'#185fa5','Exportations':'#2d7a5e','Géopolitique':'#9b2c2c','Économie mondiale':'#b45309','Investissement':'#0e7490','Commerce international':'#8899aa'};
+
+async function loadNews() {
+  document.getElementById('news-box').innerHTML='<div class="news-state"><div class="spin" style="width:24px;height:24px;border-width:2px;margin:0 auto 1rem"></div>Chargement des actualités...</div>';
+  try {
+    const data = await apiGet('/news?lang=fr&limit=9', 'Actualités indisponibles');
+    cachedNews = data.articles || [];
+    if (!cachedNews.length) throw new Error('Aucun article retourné');
+    renderNews(cachedNews, data.source);
+  } catch (err) {
+    document.getElementById('news-box').innerHTML = `<div class="news-state" style="color:var(--tl)">
+      ${err.message}<br>
+      <button onclick="loadNews()" style="background:none;border:none;color:var(--gold);cursor:pointer;text-decoration:underline;font-family:inherit;font-size:14px;margin-top:.5rem">Réessayer</button>
+    </div>`;
+  }
+}
+
+function renderNews(articles, source) {
+  const src = source ? ` <span style="opacity:.4;font-size:10px">via ${source}</span>` : '';
+  document.getElementById('news-box').innerHTML = `
+    <div style="text-align:right;margin-bottom:.75rem;font-size:11px;color:var(--tl)">Source : ${source||'RSS'}${src}</div>
+    <div class="news-grid">${articles.map(a=>`
+    <div class="news-card" onclick="${a.url&&a.url!=='#'?`window.open('${a.url}','_blank')`:'void(0)'}">
+      <div class="news-src" style="color:${TOPIC_CLR[a.topic]||'#8899aa'}">${a.topic||'Commerce international'}</div>
+      <div class="news-title">${a.title}</div>
+      <div class="news-excerpt">${a.excerpt}</div>
+      <div class="news-date">${a.source}${a.date?' · '+new Date(a.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):''}</div>
+    </div>`).join('')}</div>`;
+}
+
+/* ================================================================
+   ANALYSIS — POST /api/analyze
+================================================================ */
+function setLoad(msg,sub,pct){
+  document.getElementById('results').innerHTML=`<div class="lstate">
+    <div class="spin"></div>
+    <p style="font-weight:500">${msg}</p>
+    ${sub?`<p class="lsub">${sub}</p>`:''}
+    ${pct>0?`<div class="lpbar-w"><div class="lpbar" style="width:${pct}%"></div></div>`:''}
+  </div>`;
+}
+function showErr(msg){document.getElementById('results').innerHTML=`<div class="err">${msg}</div>`;}
+
+function vCls(v){
+  if(!v)return'vpa';const l=v.toLowerCase();
+  if(l.includes('prioritaire')||l.includes('atteignable')||l.includes('promett'))return'vpg';
+  if(l.includes('risqu')||l.includes('difficile')||l.includes('éviter')||l.includes('déconseill'))return'vpr';
+  return'vpa';
+}
+function bClr(s){return s>=65?'#2d7a5e':s>=45?'#b45309':'#9b2c2c';}
+
+async function runA() {
+  const sector = document.getElementById('sector').value;
+  const tgts   = [...S.t];
+  if (!sector)      { showErr('Veuillez sélectionner un secteur d\'activité.'); return; }
+  if (!tgts.length) { showErr('Veuillez sélectionner au moins un pays cible.'); return; }
+
+  const btn = document.getElementById('abtn');
+  btn.disabled = true; btn.textContent = 'Analyse en cours...';
+
+  setLoad(`Analyse de ${tgts.length} pays...`, 'Envoi au serveur · Claude analyse chaque marché...', 10);
+
+  // Build request body
+  const body = {
+    company: {
+      name:            gV('company'),
+      sector:          sector,
+      product:         gV('product'),
+      revenue:         gV('revenue'),
+      employees:       gV('employees'),
+      team_size:       gV('team_size'),
+      budget:          gV('budget'),
+      export_pct:      gV('export_pct'),
+      active_countries:[...S.a],
+      oc_data:         afData || null,
+    },
+    targets:    tgts,
+    objectives: {
+      goal:         gObj(),
+      horizon:      gHor(),
+      target_value: gTarget(),
+    },
+    kpis:    [...kpis],
+    context: gV('context'),
+    news:    cachedNews.slice(0, 8), // Pass news context to Claude
+  };
+
+  try {
+    setLoad(`Analyse en cours...`, `${tgts.length} pays · lots de 4 · recherche données...`, 30);
+    const data = await apiPost('/analyze', body, 'Analyse échouée');
+    renderR(data);
+  } catch (err) {
+    showErr(`Erreur d'analyse : ${err.message}<br><br>Vérifiez que le backend est bien démarré (<code>npm start</code> dans /backend) et que la clé <code>ANTHROPIC_API_KEY</code> est configurée dans <code>.env</code>.`);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Lancer l\'analyse de marché';
+  }
+}
+
+function renderR(data) {
+  const sorted=[...data.countries].sort((a,b)=>(b.score||0)-(a.score||0));
+  let h='<div class="res-wrap">';
+  if(data.summary) h+=`<div class="res-sum">${data.summary}</div>`;
+  if(data.partial)  h+=`<div class="res-warn">⚠ ${data.errors} pays n'ont pas pu être analysés (erreur temporaire). Les autres résultats sont disponibles.</div>`;
+
+  sorted.forEach((c,i)=>{
+    const sc=Math.round(c.score||0);
+    const vc=vCls(c.verdict);
+    const bc=bClr(sc);
+    const f=c.financials;
+    h+=`<div class="rc">
+      <div class="rch">
+        <div class="rcl"><div class="rcrk">${String(i+1).padStart(2,'0')}</div><div class="rcc">${c.country}</div></div>
+        <div class="rcb"><span class="vp ${vc}">${c.verdict}</span><span class="scd">${sc}<span style="font-size:13px;color:var(--tl)">/100</span></span></div>
+      </div>
+      <div class="sbw"><div class="sb" style="width:${sc}%;background:${bc}"></div></div>
+      <div class="cr">
+        <div class="cri">Taille marché <strong>${c.market_size||'—'}</strong></div>
+        <div class="cri">Facilité d'entrée <strong>${c.ease_entry||'—'}</strong></div>
+        <div class="cri">Concurrence <strong>${c.competition||'—'}</strong></div>
+        <div class="cri">Adéquation culturelle <strong>${c.cultural_fit||'—'}</strong></div>
+        <div class="cri">Risque politique <strong>${c.political_risk||'—'}</strong></div>
+      </div>
+      <div class="ins">
+        ${c.economic_context?`<div class="inl"><b>Conjoncture —</b> ${c.economic_context}</div>`:''}
+        ${c.cultural_insight?`<div class="inl"><b>Culture —</b> ${c.cultural_insight}</div>`:''}
+        ${c.key_opportunity?`<div class="inl"><b>Opportunité —</b> ${c.key_opportunity}</div>`:''}
+        ${c.main_risk?`<div class="inl"><b>Risque —</b> ${c.main_risk}</div>`:''}
+      </div>
+      ${f&&!c._error?`<div class="fp"><div class="fpl">Projections financières estimées</div><div class="fpg">
+        ${f.entry_invest?`<div><div class="fpv">${f.entry_invest}</div><div class="fpk">Investissement d'entrée</div></div>`:''}
+        ${f.yr1_revenue?`<div><div class="fpv">${f.yr1_revenue}</div><div class="fpk">CA potentiel an 1</div></div>`:''}
+        ${f.yr3_revenue?`<div><div class="fpv">${f.yr3_revenue}</div><div class="fpk">CA potentiel an 3</div></div>`:''}
+        ${f.breakeven?`<div><div class="fpv">${f.breakeven}</div><div class="fpk">Délai rentabilité</div></div>`:''}
+      </div>${f.note?`<div class="fpn">${f.note}</div>`:''}</div>`:''}
+      ${c.strategy?`<div class="stb"><div class="stbl">Stratégie recommandée</div><div class="stbt">${c.strategy.title}</div><div class="stbd">${c.strategy.description}</div></div>`:''}
+    </div>`;
+  });
+
+  h+='</div>';
+  document.getElementById('results').innerHTML=h;
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+/* ================================================================
+   INIT
+================================================================ */
+buildG('ag','a');
+buildG('tg','t');
+loadNews();
+</script>
+</body>
+</html>
